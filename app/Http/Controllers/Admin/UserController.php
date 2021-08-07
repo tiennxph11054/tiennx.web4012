@@ -7,6 +7,7 @@ use App\Http\Requests\Amin\User\UpdateRequest;
 use App\Http\Requests\Amin\User\StoreRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class UserController extends Controller
 {
@@ -32,6 +33,9 @@ class UserController extends Controller
     }
     public function create()
     {
+        if (!Gate::allows('create-user' == false)) {
+            abort(403);
+        }
         return view('admin.users.create');
     }
     public function store(StoreRequest $request)
