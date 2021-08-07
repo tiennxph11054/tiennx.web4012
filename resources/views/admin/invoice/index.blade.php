@@ -17,7 +17,6 @@
             <th style="color: white;" scope="col">Email</th>
             <th style="color: white;" scope="col">Phone</th>
             <th style="color: white;">Địa chỉ</th>
-            <th style="color: white;">Tổng tiền</th>
             <th style="color: white;">Trạng thái</th>
             <th style="color: white;">Action</th>
             <th style="color: white;">Xem chi tiết</th>
@@ -27,11 +26,10 @@
         @foreach($invoices as $key => $item)
         <tr class="table-warning">
             <th scope="row">{{$key+1}}</th>
-            <td>{{$item->user->name}}</td>
-            <td>{{$item->user->email}}</td>
+            <td>{{isset($item->user->name) ? $item->user->name : "[Đã xóa]" }}</td>
+            <td>{{isset($item->user->email) ? $item->user->email : "[Đã xóa]" }}</td>
             <td>{{$item->phone}}</td>
             <td>{{$item->address}}</td>
-            <td>{{number_format($item->total_price)}}$</td>
             <td>
                 @if($item->status == config('common.invoice.status.cho_duyet'))
                 <b style="color: red;">Chờ duyệt</b>

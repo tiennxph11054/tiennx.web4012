@@ -19,7 +19,7 @@
             <th scope="col">Sản phẩm</th>
             <th scope="col">Hình ảnh</th>
             <th scope="col">Số lượng</th>
-            <th>Tổng tiền</th>
+            <th>Thành tiền</th>
             <th>Ngày tạo</th>
         </tr>
     </thead>
@@ -35,7 +35,7 @@
             <th scope="row">{{$key+1}}</th>
             <td>{{$item->product->name}}</td>
             <td>
-                <img src="{{asset('upload/product/' . $item->image)}}" alt="" width="60px" height="60px">
+                <img src="{{asset('upload/product/' . $item->product->image)}}" alt="" width="80px" height="80px">
             </td>
             <td>{{$item->quantity}}</td>
             <td>{{number_format($item->unit_price)}} đ</td>
@@ -43,9 +43,12 @@
         </tr>
         @endforeach
         <tr>
-            <th scope="row"></th>
+            <td colspan="2" class="table-active">Phí ship</td>
+            <td>30,000 đ</td>
+        </tr>
+        <tr>
             <td colspan="2" class="table-active">Tổng tiền đơn hàng</td>
-            <td>{{number_format($total)}} đ</td>
+            <td>{{number_format($total + 30000)}} đ</td>
         </tr>
     </tbody>
 </table>

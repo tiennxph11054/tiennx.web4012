@@ -28,16 +28,16 @@
         </div>
         <div class="col-4">
             <div class="form-group">
-                <label for="">Số lượng</label>
-                <input type="text" name="quantity" value="{{old('quantity')}}" class="form-control">
-                @error('quantity')
+                <label for="">Giá khuyến mãi</label>
+                <input type="text" name="sale_price" value="{{old('sale_price')}}" class="form-control">
+                @error('sale_price')
                 <div class="text-danger">{{ $message }}</div>
                 @enderror
             </div>
         </div>
     </div>
     <div class="row">
-        <div class="col-6">
+        <div class="col-4">
             <div class="form-group">
                 <label for="">Hình ảnh</label>
                 <input type="file" name="image" value="{{old('image')}}" class="form-control">
@@ -46,7 +46,7 @@
                 @enderror
             </div>
         </div>
-        <div class="col-6">
+        <div class="col-4">
             <div class="form-group">
                 <label for="">Danh mục</label>
                 <select name="category_id" class="form-control">
@@ -58,6 +58,59 @@
                 @error('category_id')
                 <div class="text-danger">{{ $message }}</div>
                 @enderror
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="form-group">
+                <label for="">Số lượng</label>
+                <input type="text" name="quantity" value="{{old('quantity')}}" class="form-control">
+                @error('quantity')
+                <div class="text-danger">{{ $message }}</div>
+                @enderror
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-4">
+            <div class="form-group">
+                <label for="">Trạng thái</label>
+                <br>
+                <label for="">
+                    <input type="radio" name="status" value="1" checked id="">
+                    Nổi bật
+                </label>
+                <label for="">
+                    <input type="radio" name="status" value="0" id="">
+                    Sản phẩm không nổi bật
+                </label>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="form-group">
+                <label for="">Màu sắc</label><br>
+                <div class="check-box">
+                    @foreach($color as $data)
+                    <label for="">
+                        <input name="id_attr[]" type="checkbox" value="{{$data->id}}" name="" id="">
+                        <svg style="color: {{$data->value}};" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-square-fill" viewBox="0 0 16 16">
+                            <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2z" />
+                        </svg>
+                    </label>
+                    @endforeach
+                </div>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="form-group">
+                <label for="">Size</label><br>
+                <div class="check-box">
+                    @foreach($size as $data)
+                    <label for="">
+                        <input name="id_attr[]" type="checkbox" value="{{$data->id}}" name="" id="">
+                        {{$data->value}}
+                    </label>
+                    @endforeach
+                </div>
             </div>
         </div>
     </div>

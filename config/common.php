@@ -27,6 +27,13 @@ return [
         4 => 'Số lượng tăng dần',
         5 => 'Số lượng giảm dần',
     ],
+    'posts' => [
+        'status' => [
+            1 => 'Hiện',
+            2 => 'Ẩn'
+        ],
+    ],
+
 ];
 
 // 2 => 'Sắp xếp theo tên giảm dần',

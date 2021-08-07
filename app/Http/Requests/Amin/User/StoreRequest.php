@@ -3,6 +3,8 @@
 namespace App\Http\Requests\Amin\User;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class StoreRequest extends FormRequest
 {
@@ -28,7 +30,6 @@ class StoreRequest extends FormRequest
             'password' => 'required|min:6|max:50',
             'email' => 'required|email|unique:users,email',
             'address' => 'required',
-            'role' => 'required|in:' . implode(',', config('common.user.role')),
             'gender' => 'required|in:' . implode(',', config('common.user.gender')),
         ];
     }
@@ -51,7 +52,6 @@ class StoreRequest extends FormRequest
             'email' => 'Email',
             'password' => 'Mật khẩu',
             'address' => 'Địa chỉ',
-            'role' => 'Tài khoản',
             'gender' => 'Giới tính',
         ];
     }

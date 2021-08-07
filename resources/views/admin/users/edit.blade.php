@@ -10,14 +10,23 @@
     <div class="form-group">
         <label for="">Tên</label>
         <input type="text" name="name" value="{{$data->name}}" class="form-control">
+        @error('name')
+        <span class="text-danger">{{ $message }}</span>
+        @enderror
     </div>
     <div class="form-group">
         <label for="">Email</label>
         <input type="email" name="email" value="{{$data->email}}" class="form-control">
+        @error('email')
+        <span class="text-danger">{{ $message }}</span>
+        @enderror
     </div>
     <div class="form-group">
         <label for="">Địa chỉ</label>
         <input type="text" name="address" value="{{$data->address}}" class="form-control">
+        @error('address')
+        <span class="text-danger">{{ $message }}</span>
+        @enderror
     </div>
     <div class="form-group">
         <label>Giới tính</label>

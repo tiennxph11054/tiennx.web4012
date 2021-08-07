@@ -14,4 +14,16 @@ class Product extends Model
     {
         return $this->belongsTo(Category::class, 'category_id');
     }
+    public function attributes()
+    {
+        return $this->belongsToMany(Attribute::class, 'product_attrs', 'id_product', 'id_attr');
+    }
+    public function attribute()
+    {
+        return $this->hasMany(Attribute::class, 'id_product');
+    }
+    public function proAttr()
+    {
+        return $this->belongsTo(ProductAttr::class, 'id_product', 'id_attr');
+    }
 }

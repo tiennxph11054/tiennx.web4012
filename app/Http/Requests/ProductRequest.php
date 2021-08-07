@@ -26,6 +26,7 @@ class ProductRequest extends FormRequest
         return [
             'name' => 'required|max:50',
             'price' => 'required|integer',
+            'sale_price' => 'lte:price',
             'quantity' => 'required|integer',
             'image' => 'required|mimes:jpg,jpeg,png,gif',
             'category_id' => 'required',
@@ -40,6 +41,7 @@ class ProductRequest extends FormRequest
             'required' => ':attribute Không được để trống trường này!',
             'name.max' => 'Tên không được quá 50 kí tự',
             'price.integer' => 'Giá phải là số dương',
+            'sale_price.lte' => 'Giá khuyến mãi phải nhỏ hơn giá gốc',
             'image.mimes' => 'Định dạng ảnh không hợp lệ',
             'short_content.max' => 'Mô tả không quá 300 kí tự',
         ];

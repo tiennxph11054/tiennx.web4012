@@ -18,6 +18,71 @@
             </svg>
         </a>
     </div>
+    <!-- <button class="btn btn-success" role="button" data-toggle="modal" data-target="#modal_create">Thêm mới</button>
+
+    <div class="modal fade" id="modal_create" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Thêm mới người dùng</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form method="POST" id="form_create" action="{{ route('admin.users.store') }}">
+                        @csrf
+                        <div class="mt-3">
+                            <label>Name</label>
+                            <input class="mt-3 form-control" type="text" name="name" />
+                        </div>
+                        <div class="mt-3">
+                            <label>Email</label>
+                            <input class="mt-3 form-control" type="email" name="email" />
+                        </div>
+                        <div class="mt-3">
+                            <label>Address</label>
+                            <input class="mt-3 form-control" type="text" name="address" />
+                        </div>
+                        <div class="mt-3">
+                            <label>Password</label>
+                            <input class="mt-3 form-control" type="password" name="password" />
+                        </div>
+
+                        <div class="mt-3">
+                            <label>Gender</label>
+                            <select class="mt-3 form-control" name="gender">
+                                <option value="{{ config('common.user.gender.male') }}">
+                                    Male
+                                </option>
+                                <option value="{{ config('common.user.gender.female') }}">
+                                    Female
+                                </option>
+                            </select>
+                        </div>
+                        <div class="mt-3">
+                            <label>Role</label>
+                            <select class="mt-3 form-control" name="role">
+                                <option value="{{ config('common.user.role.user') }}">
+                                    User
+                                </option>
+                                <option value="{{ config('common.user.role.admin') }}">
+                                    Admin
+                                </option>
+                            </select>
+                        </div>
+
+                        <div class="mt-3">
+                            <button class="mt-3 btn btn-primary">Create</button>
+                            <button type="reset" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div> -->
 </div>
 <br>
 <table class="table table-striped">
@@ -52,7 +117,7 @@
                         <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
                     </svg>
                 </a>
-                <!-- <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> -->
+                <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
             </td>
             <td>
                 <button class="btn btn-danger" role="button" data-toggle="modal" data-target="#confirm_delete_{{ $item->id }}">
@@ -100,3 +165,48 @@
 
 
 @endsection
+
+@push('scrip')
+<script>
+    $("#form_create").on('submit', function(event) {
+        event.preventDefault();
+        const url = "{{route('admin.users.store')}}";
+
+        let name = $("form_create input[name='name']").val();
+        let email = $("form_create input[name='email']").val();
+        let address = $("form_create input[name='address']").val();
+        let password = $("form_create input[name='password']").val();
+        let gender = $("form_create select[name='gender']").val();
+        let role = $("form_create select[name='role']").val();
+        let _token = $("form_create input[name='_token']").val();
+
+        const data = {
+            _token,
+            name,
+            email,
+            password,
+            gender,
+            role,
+        };
+        console.log(data);
+
+        fetch(url, {
+                method: 'POST',
+                body: JSON.stringify(data),
+                headers: {
+                    "X-CSRF-Token": _token,
+                    "Content-Type": "applycation/json",
+                    "Accept": "applycation/json",
+                    "X-Request-With": "XMLHttpRequest",
+                },
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                if (data.status == 200) {
+                    window.location.reload();
+                }
+            })
+    });
+</script>
+@endpush

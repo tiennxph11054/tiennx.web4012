@@ -43,7 +43,7 @@
             </div>
             <div class="col-md-3">
                 <select class="form-control" name="order_by" id="">
-                    <option value="">Sắp xế theo</option>
+                    <option value="">Sắp xếp theo</option>
                     @foreach(config('common.product_order_by') as $k => $val)
                     <option value="{{$k}}">{{$val}}</option>
                     @endforeach
@@ -65,9 +65,10 @@
             <td>Giá khuyến mãi</td>
             <td>Nổi bật</td>
             <td>Số lượng</td>
+            <td>Size</td>
+            <td>Màu sắc</td>
             <td>Danh mục</td>
             <td>Hình ảnh</td>
-            <td>Mô tả</td>
             <td colspan="2">Action
                 <a href="{{route('admin.products.create')}}" class="btn btn-success float-right m-2">
                     Thêm mới
@@ -107,11 +108,24 @@
                 ?>
             </td>
             <td>{{$item->quantity}}</td>
+            <td>
+                @foreach($item->attributes as $att)
+                @if($att->name == 'size')
+                <li><a href="#">{{$att->value}}</a></li>
+                @endif
+                @endforeach
+            </td>
+            <td>
+                @foreach($item->attributes as $att)
+                @if($att->name == 'color')
+                <li><a href="#">{{$att->value}}</a></li>
+                @endif
+                @endforeach
+            </td>
             <td>{{isset($item->category->name) ? $item->category->name : "[Đã xóa]" }}</td>
             <td>
                 <img src="{{ asset('upload/product/' . $item->image) }}" height="80" width="80" />
             </td>
-            <td>{!!$item->short_content!!}</td>
             <td>
                 <a href="{{route('admin.products.edit',['id'=>$item->id])}}" class="btn btn-primary">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
@@ -122,7 +136,7 @@
                 <!-- <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> -->
             </td>
             <td>
-                <button class="btn btn-danger" role="button" products-toggle="modal" products-target="#confirm_delete_{{ $item->id }}">
+                <button class="btn btn-danger" role="button" data-toggle="modal" data-target="#confirm_delete_{{ $item->id }}">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
                         <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" />
                         <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" />
@@ -133,7 +147,7 @@
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h5 class="modal-title" id="exampleModalLabel">Xác nhận</h5>
-                                <button type="button" class="close" products-dismiss="modal" aria-label="Close">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
@@ -141,7 +155,7 @@
                                 Xác nhận xóa bản ghi này?
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-default" products-dismiss="modal">Cancel</button>
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
 
                                 <form method="POST" action="{{ route('admin.products.delete', [ 'id' => $item->id ]) }}">
                                     @csrf

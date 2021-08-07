@@ -31,6 +31,24 @@
                     </a>
                 </li>
                 <li>
+                    <a href="{{route('admin.attributes.index')}}">
+                        <i class="fe-hard-drive"></i>
+                        <span> Thuộc tính </span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{route('admin.posts.index')}}">
+                        <i class="fe-hard-drive"></i>
+                        <span> Bài viết </span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{route('admin.comments.index')}}">
+                        <i class="fe-hard-drive"></i>
+                        <span> Bình luận </span>
+                    </a>
+                </li>
+                <li>
                     <a href="{{route('admin.users.index')}}">
                         <i class="fe-hard-drive"></i>
                         <span> Thành viên </span>

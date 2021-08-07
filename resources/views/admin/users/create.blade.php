@@ -9,7 +9,7 @@
     @csrf
     <div class="form-group">
         <label for="">Tên</label>
-        <input type="text" name="name" value="{{old('name')}}" class="form-control @error('name') is-invalid @enderror">
+        <input type="text" name="name" value="{{old('name')}}" class="form-control ">
         @error('name')
         <span class="text-danger">{{ $message }}</span>
         @enderror

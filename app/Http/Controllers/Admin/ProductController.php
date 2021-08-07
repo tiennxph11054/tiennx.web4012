@@ -4,8 +4,10 @@ namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ProductRequest;
+use App\Models\Attribute;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\ProductAttr;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Collection;
@@ -37,12 +39,15 @@ class ProductController extends Controller
         // $products = Product::latest()->paginate(20);
         // $productQuery = Product::latest()->paginate(20);
         $products = $productQuery->latest()->paginate(20);
+        $products->load(['attributes']);
         return view('/admin/product/index', compact('products', 'category'));
     }
     public function create()
     {
+        $color = Attribute::where('name', 'color')->get();
+        $size = Attribute::where('name', 'size')->get();
         $category = Category::all();
-        return view('admin.product.create', compact('category'));
+        return view('admin.product.create', compact('category', 'color', 'size'));
     }
     public function store(ProductRequest $request)
     {
@@ -72,23 +77,32 @@ class ProductController extends Controller
         $product =  Product::create([
             'name' => $request->name,
             'price' => $request->price,
+            'sale_price' => $request->sale_price,
             'image' => $fileImage,
             'quantity' => $request->quantity,
             'category_id' => $request->category_id,
             'slug' => Str::slug($request->name),
+            'status' => $request->status,
             'short_content' => $request->short_content,
             'long_content' => $request->long_content,
         ]);
+        foreach ($request->id_attr as $value) {
+            ProductAttr::create([
+                'id_product' => $product->id,
+                'id_attr' => $value,
+            ]);
+        }
         return redirect()->route('admin.products.index')->with('alert', 'Thêm dữ liệu thành công!');
-    }
-    public function show($id)
-    {
     }
     public function edit($id)
     {
         $category = Category::all();
+        $color = Attribute::where('name', 'color')->get();
+        $size = Attribute::where('name', 'size')->get();
         $products = Product::find($id);
-        return view('admin.product.edit', compact('products', 'category'));
+        //chuyển về dạng mảng
+        $id_attr = DB::table('product_attrs')->where('id_product', $id)->pluck('id_attr')->toArray();
+        return view('admin.product.edit', compact('products', 'category', 'color', 'size', 'id_attr'));
     }
     public function update(ProductRequest $request, $id)
     {
@@ -122,6 +136,7 @@ class ProductController extends Controller
             'quantity' => $request->quantity,
             'category_id' => $request->category_id,
             'slug' => Str::slug($request->name),
+            'status' => $request->status,
             'short_content' => $request->short_content,
             'long_content' => $request->long_content,
         ]);
@@ -129,7 +144,9 @@ class ProductController extends Controller
     }
     public function delete($id)
     {
-        $products = Product::find($id)->delete();
+        $products = Product::find($id);
+        $products->proAttr()->delete($id);
+        $products->delete($id);
         return redirect()->route('admin.products.index', compact('products'))->with('message', 'Xóa dữ liệu thành công!');
     }
     public function activePro($pro_id)
