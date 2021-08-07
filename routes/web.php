@@ -45,7 +45,7 @@ Route::get('/thanh-toan', [CartController::class, 'getFormPay'])->name('getFormP
 Route::post('/dat-hang', [CartController::class, 'getSaveInfo'])->name('getSaveInfo');
 Route::get('/thanh-cong', [CartController::class, 'thanhcong'])->name('thanhcong');
 
-//LOGIN
+//LOGI
 
 Route::get('login', [LoginController::class, 'getLoginForm'])->name('auth.getLoginForm');
 Route::post('login',  [LoginController::class, 'login'])->name('auth.login');
