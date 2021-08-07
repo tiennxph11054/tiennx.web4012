@@ -41,9 +41,6 @@
             <div class="form-group">
                 <label for="">Hình ảnh</label>
                 <input type="file" name="image" class="form-control">
-                @error('image')
-                <div class="text-danger">{{ $message }}</div>
-                @enderror
                 <br>
                 <div class="div">
                     @if($products->image)

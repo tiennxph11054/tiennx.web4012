@@ -104,7 +104,7 @@ class ProductController extends Controller
         $id_attr = DB::table('product_attrs')->where('id_product', $id)->pluck('id_attr')->toArray();
         return view('admin.product.edit', compact('products', 'category', 'color', 'size', 'id_attr'));
     }
-    public function update(ProductRequest $request, $id)
+    public function update(Request $request, $id)
     {
         $products = new Product;
         if ($request->hasFile('upload')) {
@@ -122,12 +122,16 @@ class ProductController extends Controller
             @header('Content-type: text/html; charset=utf-8');
             echo $re;
         }
+
         if ($request->hasFile('image')) {
             $file = $request->file('image');
             $ext = $file->getClientOriginalExtension();
             $fileImage = time() . '.' . $ext;
             $file->move(public_path('upload/product'), $fileImage);
             $products->image = $fileImage;
+        } else {
+            $image_old = Product::find($id);
+            $fileImage = $image_old->image;
         }
         Product::find($id)->update([
             'name' => $request->name,
